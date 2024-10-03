@@ -1,0 +1,20 @@
+== ÚJ LARAVEL PROJEKT
+
+1. composer create-project laravel/laravel
+2. cd Laravel
+3. composer require laravel/breeze
+4. php artisan breeze:install
+5. npm install
+6. npm run build   (vagy: npm run dev)
+7. php artisan serve
+
+== KAPOTT LARAVEL PROJEKT ELINDÍTÁSA
+1. composer install
+2. .env.example ---> .env
+3. php artisan key:generate
+4. php artisan migrate
+5. npm install
+6. npm run build
+
+== KAPCSOLATOK
+
