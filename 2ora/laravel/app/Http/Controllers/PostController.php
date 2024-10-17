@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,7 +22,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create', [
+            'users' => User::all()
+        ]);
     }
 
     /**
@@ -29,7 +32,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request -> validate([
+            'title' => 'required|min:4',
+            'content' => 'required|max:255',
+            'author_id' => 'required|exists:users,id'
+        ], [
+            'title.required' => 'Marika néni, kell cím!'
+        ]);
+
+        $p = Post::create($validated);
+        return redirect() -> route('posts.show', ['post' => $p]);
     }
 
     /**

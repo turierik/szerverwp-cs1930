@@ -8,6 +8,8 @@
 
 <b class="pb-8">Szerző:</b>{{ $post -> user -> name}} <br>
 
-{{ $post -> content }}
+{{ $post -> content }}<br>
+
+<a href="{{ route('posts.index') }}">Vissza</a>
 
 @endsection

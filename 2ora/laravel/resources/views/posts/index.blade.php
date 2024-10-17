@@ -6,7 +6,7 @@
 
 <ul>
     @foreach ($posts as $p)
-        <li>{{$p -> title}} (<i>{{ $p -> user -> name }}</i>)</li>
+        <li><a href="{{ route('posts.show', ['post' => $p]) }}">{{$p -> title}}</a> (<i>{{ $p -> user -> name }}</i>)</li>
     @endforeach
 </ul>
 

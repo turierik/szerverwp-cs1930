@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a {
+    @apply text-fuchsia-500 hover:underline;
+}
+
+button {
+    @apply bg-fuchsia-500 rounded rounded-lg hover:bg-fuchsia-800 text-white p-2 px-4 mt-4;
+}
