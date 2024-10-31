@@ -9,3 +9,7 @@ a {
 button {
     @apply bg-fuchsia-500 rounded rounded-lg hover:bg-fuchsia-800 text-white p-2 px-4 mt-4;
 }
+
+h2 {
+    @apply text-xl font-medium text-blue-700 pb-4;
+}

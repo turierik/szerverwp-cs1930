@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreOrUpdateRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -13,8 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        // return view('posts.index', ['posts' => Post::all()]);
-        return view('posts.index', ['posts' => Post::with('user') -> get()]);
+        return view('posts.index', [
+            // 'posts' => Post::all()
+            'posts' => Post::with('user') -> get()
+        ]);
     }
 
     /**
@@ -23,25 +28,23 @@ class PostController extends Controller
     public function create()
     {
         return view('posts.create', [
-            'users' => User::all()
+            'users' => User::all(),
+            'categories' => Category::all()
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostStoreOrUpdateRequest $request)
     {
-        $validated = $request -> validate([
-            'title' => 'required|min:4',
-            'content' => 'required|max:255',
-            'author_id' => 'required|exists:users,id'
-        ], [
-            'title.required' => 'Marika néni, kell cím!'
-        ]);
+        $validated = $request -> validated();
 
         $p = Post::create($validated);
-        return redirect() -> route('posts.show', ['post' => $p]);
+        $p -> categories() -> sync($validated['categories'] ?? []);
+
+        Session::flash('post-created', $p);
+        return redirect() -> route('posts.index');
     }
 
     /**
@@ -49,7 +52,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show', ['post' => $post]);
+        return view('posts.show', [ 'post' => $post ]);
     }
 
     /**
@@ -57,15 +60,25 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', [
+            'users' => User::all(),
+            'categories' => Category::all(),
+            'post' => $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostStoreOrUpdateRequest $request, Post $post)
     {
-        //
+        $validated = $request -> validated();
+
+        $post -> update($validated);
+        $post -> categories() -> sync($validated['categories'] ?? []);
+
+        Session::flash('post-updated', $post);
+        return redirect() -> route('posts.index');
     }
 
     /**
@@ -73,6 +86,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post -> delete();
+        Session::flash('post-deleted');
+        return redirect() -> route('posts.index');
     }
 }
