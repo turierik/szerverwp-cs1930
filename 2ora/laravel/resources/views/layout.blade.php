@@ -8,6 +8,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+
+    @guest
+        <a href="{{ route('login') }}">Bejelentkezés</a><br>
+        <a href="{{ route('register') }}">Regisztráció</a>
+    @endguest
+
+    @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <h2 class="text-xl">Szia, {{ Auth::user() -> name }}!</h2>
+            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">Kijelentkezés</a><br>
+        </form>
+    @endauth
+
     <div class="container mx-auto">
         <h1 class="text-5xl text-fuchsia-700 pb-8">My Laravel blog</h1>
         @yield('content')

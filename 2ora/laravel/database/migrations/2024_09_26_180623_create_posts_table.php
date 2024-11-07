@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('content');
-            $table->foreignId('author_id')->constrained('users')->onDelete('cascade');;
+            $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
