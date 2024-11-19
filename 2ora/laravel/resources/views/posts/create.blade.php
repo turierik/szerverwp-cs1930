@@ -10,7 +10,7 @@
     @csrf
 
     Cím:<br>
-    <input type="text" name="title" value="{{ old('title') }}">
+    <input type="text" name="title" value="{{ old('title') }}"  enctype="multipart/form-data">
     @error('title')
         <span class="text-red-500 font-bold">{{ $message }}</span>
     @enderror<br>
@@ -29,6 +29,12 @@
     @error('categories')
         <span class="text-red-500 font-bold">{{ $message }}</span>
     @enderror
+
+    Kép:<br>
+    <input type="file" name="imagefile">
+    @error('imagefile')
+        <span class="text-red-500 font-bold">{{ $message }}</span>
+    @enderror<br>
 
     <button type="submit">Küldés</button>
 
